@@ -1,0 +1,23 @@
+{
+    "compilerOptions": {
+        "outDir": "./dist/",
+        "sourceMap": true,
+        "declaration": true,
+        "noImplicitAny": true,
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "esModuleInterop": true,
+        "noUnusedLocals": true,
+        "noImplicitReturns": true,
+        "traceResolution": false,
+        "allowSyntheticDefaultImports": true,
+        "target": "es5",
+        "lib": [
+            "dom",
+            "es2015"
+        ]
+    },
+    "include": [
+        "./index.ts"
+    ]
+}
