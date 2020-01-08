@@ -2,7 +2,7 @@
 
 The simple localization service
 
-[![Build Status](https://travis-ci.org/AlexeyRipenko/localizationservice.svg?branch=master)](https://travis-ci.org/AlexeyRipenko/localizationservice)
+[![Build Status](https://travis-ci.org/ripenko/localizationservice.svg?branch=master)](https://travis-ci.org/ripenko/localizationservice)
 
 ## Installation
 
@@ -41,8 +41,8 @@ Method `localize`. By default return type of method `localize<T = string>` is st
 If we pass a localization key that point doesn't point to string, but it points to the parent nested object, then localized result will be object.
 Typically usecases: 
 
-    - dynamic key. if localization key is computed
-    - localized object should be passed to some component. (Example: Globalization, or localization of some Telerik control)
+- dynamic key. if localization key is computed
+- localized object should be passed to some component. (Example: Globalization, or localization of some Telerik control)
 
 ```typescript
 import LocalizationService from "localizationservice";
@@ -205,7 +205,8 @@ const service = new LocalizationService({
     currentLanguage: defaultLanguage
 });
 
-// There is no `__cultureName__` of `germanLanguage`, then parameter `name` will be used to definde language name `de-de` (case will be lowered).
+// There is no `__cultureName__` of `germanLanguage`, 
+// then parameter `name` will be used to definde language name `de-de` (case will be lowered).
 // The method doesn't change the current language. See `changeLanguage`.
 await service.importLanguage(germanLanguage, "de-DE");
 

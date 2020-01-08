@@ -3,3 +3,5 @@ sudo: false
 node_js:
   - 6.0
   - 8.0
+script: npm run watch
+
