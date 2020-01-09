@@ -1,7 +1,7 @@
 {
   "name": "localizationservice",
   "description": "The simple localization service",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "main": "./dist/index.js",
   "scripts": {
     "build": "tsc",
@@ -18,6 +18,13 @@
     "type": "git",
     "url": "git@github.com:ripenko/localizationservice.git"
   },
+  "keywords": [
+    "localziationservice",
+    "localization",
+    "service",
+    "typescript",
+    "promise"
+  ],
   "dependencies": {
     "lodash.get": "4.4.2"
   },

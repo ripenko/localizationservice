@@ -4,6 +4,8 @@ The simple localization service
 
 [![Build Status](https://travis-ci.org/ripenko/localizationservice.svg?branch=master)](https://travis-ci.org/ripenko/localizationservice)
 
+Also there is `localizationkeys-webpack` that generates typescript class of localization keys. See [https://github.com/ripenko/localizationkeys-webpack].
+
 ## Installation
 
 ```
@@ -33,6 +35,58 @@ const service = new LocalizationService({
 
 const localized: string = service.localize("Key2.Key21");
 console.log(localized);  // "Value 21"
+
+```
+
+### Example. The facade pattern with event bus integration
+The events bus is `eventservice`. See [https://github.com/ripenko/eventservice]
+
+There are two localization files `default.jsonc` and `de-de.json`. To generate localization keys from `default.jsonc` file we can use webpack plugin [https://github.com/ripenko/localizationkeys-webpack].
+
+The `Localization.ts` file in your app.
+```typescript
+import LocalizationService from "localizationservice";
+import EventService from "eventservice";
+
+export default class Localization {
+       
+    private static service: LocalizationService | null = null;
+
+    public static localize<T = string>(key: string, ...formatArgs: string[]): T {
+        if (Localization.service == null) initService();
+    }
+
+    private static initService(): void {
+        const defaultLanguage = require("localization/default.jsonc");
+        const germanLanguage = require("localization/de-de.jsonc");
+        Localization.service = new LocalizationService({
+            importedLanguages: {
+                [LocalizationService.DEFAULT_CULTURE_NAME]: defaultLanguage,
+                "de-de": germanLanguage
+            },
+            onLanguageChanged: (languageName: string, language: ILocalizationLanguage): Promise<void> => {
+                // we can notify subscribers that the current language has been changed.
+                // if we use momentjs then we can change locale by `moment.locale(languageName);`
+                // or numeraljs, etc...
+                return EventService.fire("Events.Localization.LanguageChanged", { name: languageName, langauge: language });
+            },
+            onLanguageImported: (languageName: string, language: ILocalizationLanguage): Promise<void> => {
+                // we can load language from api or some another place async to import it by `service.importLanguage` method
+                // when new language will be imported we can update UI by refreshing a list of available languages
+                return EventService.fire("Events.Localization.LanguageImported", { name: languageName, langauge: language });
+            },
+            onLocalizationMissing: (key: string, _languageName: string, _language: ILocalizationLanguage | null, _formatArgs: string[]): string => {
+                // When localization has been not found in current language we return just key. 
+                // The testers could find easy such unlocalizated places.
+                // Or we can notify insights about missing values.
+                // Or we can try to get value from default language.
+                // Or write in the console, etc...
+                return key;
+            }
+        });
+    }
+
+}
 
 ```
 
