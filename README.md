@@ -54,6 +54,7 @@ export default class Localization {
 
     public static localize<T = string>(key: string, ...formatArgs: string[]): T {
         if (Localization.service == null) initService();
+        return Localization.service.localize(key, formatArgs);
     }
 
     private static initService(): void {
