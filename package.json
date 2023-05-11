@@ -1,16 +1,14 @@
 {
   "name": "localizationservice",
   "description": "The simple localization service",
-  "version": "1.0.5",
+  "version": "1.1.0",
   "main": "./dist/index.js",
   "scripts": {
     "build": "tsc",
-    "lint": "tslint index.ts",
-    "pretest": "npm run lint",
     "test": "jest"
   },
   "publishConfig": {
-    "registry": "http://registry.npmjs.org"
+    "registry": "https://registry.npmjs.org"
   },
   "author": "Alexey Ripenko <alexey@ripenko.ru>",
   "license": "MIT",
@@ -29,11 +27,10 @@
     "lodash.get": "4.4.2"
   },
   "devDependencies": {
-    "@types/lodash.get": "4.4.6",
-    "@types/jest": "24.0.25",
-    "tslint": "5.20.1",
-    "typescript": "3.7.4",
-    "jest": "24.9.0",
-    "ts-jest": "24.2.0"
+    "@types/lodash.get": "4.4.7",
+    "@types/jest": "29.5.1",
+    "typescript": "5.0.4",
+    "jest": "29.5.0",
+    "ts-jest": "29.1.0"
   }
 }
