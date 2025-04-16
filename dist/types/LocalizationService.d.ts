@@ -1,11 +1,12 @@
 /**
  * Interface of localization language
  */
-export interface ILocalizationLanguage {
+export type LocalizationLanguage = {
     /**
      * If this property exists then will be used to define language name
      */
     __cultureName__?: string;
+} & {
     /**
      * Localization value by name. Could be nested.
      * ```typescript
@@ -18,22 +19,22 @@ export interface ILocalizationLanguage {
      * }
      * ```
      */
-    [name: string]: string | ILocalizationLanguageValue;
-}
-export interface ILocalizationLanguageValue {
-    [name: string]: string | ILocalizationLanguageValue;
+    [name: string]: string | LocalizationLanguageValue;
+};
+export interface LocalizationLanguageValue {
+    [name: string]: string | LocalizationLanguageValue;
 }
 /**
  * Interface of init setup of [[LocalizationService]]
  * @interface ILocalizationServiceSetup
  * @see https://ripenko.github.com/localizationservice
  */
-export interface ILocalizationServiceSetup {
+export interface LocalizationServiceSetup {
     /**
      * Initialized imported languages
      */
     importedLanguages?: {
-        [name: string]: ILocalizationLanguage;
+        [name: string]: LocalizationLanguage;
     };
     /**
      * Initialized current language name
@@ -42,19 +43,19 @@ export interface ILocalizationServiceSetup {
     /**
      * Initialized current language
      */
-    currentLanguage?: ILocalizationLanguage;
+    currentLanguage?: LocalizationLanguage;
     /**
      * Initialized handler when language will be imported
      */
-    onLanguageImported?: (name: string, language: ILocalizationLanguage) => Promise<void>;
+    onLanguageImported?: (name: string, language: LocalizationLanguage) => Promise<void>;
     /**
      * Initialized handler when language will be changed
      */
-    onLanguageChanged?: (languageName: string, language: ILocalizationLanguage | null) => Promise<void>;
+    onLanguageChanged?: (languageName: string, language: LocalizationLanguage | null) => Promise<void>;
     /**
      * Initialized handler when on localization there is missing localizion key
      */
-    onLocalizationMissing?: (key: string, languageName: string, language: ILocalizationLanguage | null, ...formatArgs: any[]) => string;
+    onLocalizationMissing?: (key: string, languageName: string, language: LocalizationLanguage | null, ...formatArgs: any[]) => string;
 }
 /**
  * Localization Service
@@ -63,11 +64,11 @@ export interface ILocalizationServiceSetup {
 export default class LocalizationService {
     static DEFAULT_CULTURE_NAME: string;
     protected importedLanguages: {
-        [name: string]: ILocalizationLanguage;
+        [name: string]: LocalizationLanguage;
     };
     protected currentLanguageName: string;
-    protected currentLanguage: ILocalizationLanguage;
-    constructor(setup?: ILocalizationServiceSetup);
+    protected currentLanguage: LocalizationLanguage;
+    constructor(setup?: LocalizationServiceSetup);
     /**
      * Import new language without change the current language
      * @async
@@ -75,7 +76,7 @@ export default class LocalizationService {
      * @param name optional. language name. When language hat `__cultureName__` then `__cultureName__` will be use and this param will be ignored. If language has no property and name param is undefined then default language name will be used
      * @returns [[LocalizationService]]
      */
-    importLanguage: (language: ILocalizationLanguage, name?: string) => Promise<LocalizationService>;
+    importLanguage: (language: LocalizationLanguage, name?: string) => Promise<LocalizationService>;
     /**
      * Change the current language name
      * @async
@@ -103,8 +104,8 @@ export default class LocalizationService {
      * Get current language name
      */
     getCurrentLanguageName(): string;
-    protected localizeInternal<T = string>(key: string, languageName: string, language: ILocalizationLanguage | null, formatArgs: string[]): T;
-    protected onLanguageChanged: (languageName: string, language: ILocalizationLanguage | null) => Promise<void>;
-    protected onLocalizationMissing: (key: string, languageName: string, language: ILocalizationLanguage, formatArgs: any[]) => string;
-    protected onLanguageImported: (name: string, language: ILocalizationLanguage) => Promise<void>;
+    protected localizeInternal<T = string>(key: string, languageName: string, language: LocalizationLanguage, formatArgs: string[]): T;
+    protected onLanguageChanged: (languageName: string, language: LocalizationLanguage | null) => Promise<void>;
+    protected onLocalizationMissing: (key: string, languageName: string, language: LocalizationLanguage, formatArgs: any[]) => string;
+    protected onLanguageImported: (name: string, language: LocalizationLanguage) => Promise<void>;
 }

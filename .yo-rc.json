@@ -1,9 +1,0 @@
-{
-  "generator-npm-module": {
-    "promptValues": {
-      "authorName": "AlexeyRipenko",
-      "fullName": "Alexey Ripenko",
-      "emailAddress": "alexey@ripenko.ru"
-    }
-  }
-}
