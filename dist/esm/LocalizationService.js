@@ -22,6 +22,9 @@ export class LocalizationService {
                 await this.onLanguageImported(name, language);
             return this;
         };
+        this.isLanguageImported = (name) => {
+            return this.importedLanguages[name] != null;
+        };
         /**
          * Change the current language name
          * @async
@@ -36,6 +39,12 @@ export class LocalizationService {
             if (this.onLanguageChanged != null)
                 await this.onLanguageChanged(languageName, lang);
             return this;
+        };
+        /**
+         * Get current language name
+         */
+        this.getCurrentLanguageName = () => {
+            return this.currentLanguageName;
         };
         const mergedSetup = {
             importedLanguages: {
@@ -78,12 +87,6 @@ export class LocalizationService {
      */
     localize(key, ...formatArgs) {
         return this.localizeInternal(key, this.currentLanguageName, this.currentLanguage, formatArgs);
-    }
-    /**
-     * Get current language name
-     */
-    getCurrentLanguageName() {
-        return this.currentLanguageName;
     }
     localizeInternal(key, languageName, language, formatArgs) {
         let result = get(language || {}, key, null);

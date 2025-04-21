@@ -1,6 +1,7 @@
 import { it, expect } from "vitest";
 
-import LocalizationService, {
+import {
+  LocalizationService,
   LocalizationLanguage,
 } from "../src/LocalizationService";
 

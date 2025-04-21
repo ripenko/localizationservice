@@ -76,14 +76,15 @@ export declare class LocalizationService {
      * @param name optional. language name. When language hat `__cultureName__` then `__cultureName__` will be use and this param will be ignored. If language has no property and name param is undefined then default language name will be used
      * @returns [[LocalizationService]]
      */
-    importLanguage: (language: LocalizationLanguage, name?: string) => Promise<LocalizationService>;
+    readonly importLanguage: (language: LocalizationLanguage, name?: string) => Promise<LocalizationService>;
+    readonly isLanguageImported: (name: string) => boolean;
     /**
      * Change the current language name
      * @async
      * @param languageName. optional. name of the language that should be current. If parameter is undefined, then language name will be default
      * @returns [[LocalizationService]]
      */
-    changeLanguage: (languageName?: string) => Promise<LocalizationService>;
+    readonly changeLanguage: (languageName?: string) => Promise<LocalizationService>;
     /**
      * Get localization by the key.
      * @param key The localization Key. To get nested value we use '.' to define nested properties
@@ -103,7 +104,7 @@ export declare class LocalizationService {
     /**
      * Get current language name
      */
-    getCurrentLanguageName(): string;
+    readonly getCurrentLanguageName: () => string;
     protected localizeInternal<T = string>(key: string, languageName: string, language: LocalizationLanguage, formatArgs: string[]): T;
     protected onLanguageChanged: (languageName: string, language: LocalizationLanguage | null) => Promise<void>;
     protected onLocalizationMissing: (key: string, languageName: string, language: LocalizationLanguage, formatArgs: any[]) => string;

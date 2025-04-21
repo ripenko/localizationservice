@@ -133,7 +133,7 @@ export class LocalizationService {
    * @param name optional. language name. When language hat `__cultureName__` then `__cultureName__` will be use and this param will be ignored. If language has no property and name param is undefined then default language name will be used
    * @returns [[LocalizationService]]
    */
-  public importLanguage = async (
+  public readonly importLanguage = async (
     language: LocalizationLanguage,
     name?: string
   ): Promise<LocalizationService> => {
@@ -147,13 +147,17 @@ export class LocalizationService {
     return this;
   };
 
+  public readonly isLanguageImported = (name: string): boolean => {
+    return this.importedLanguages[name] != null;
+  };
+
   /**
    * Change the current language name
    * @async
    * @param languageName. optional. name of the language that should be current. If parameter is undefined, then language name will be default
    * @returns [[LocalizationService]]
    */
-  public changeLanguage = async (
+  public readonly changeLanguage = async (
     languageName?: string
   ): Promise<LocalizationService> => {
     languageName = (
@@ -194,9 +198,9 @@ export class LocalizationService {
   /**
    * Get current language name
    */
-  public getCurrentLanguageName(): string {
+  public readonly getCurrentLanguageName = (): string => {
     return this.currentLanguageName;
-  }
+  };
 
   protected localizeInternal<T = string>(
     key: string,
