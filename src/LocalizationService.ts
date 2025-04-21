@@ -80,7 +80,7 @@ export interface LocalizationServiceSetup {
  * Localization Service
  * @class LocalizationService
  */
-export default class LocalizationService {
+export class LocalizationService {
   public static DEFAULT_CULTURE_NAME: string = "";
 
   protected importedLanguages: { [name: string]: LocalizationLanguage };
