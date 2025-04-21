@@ -3,6 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.LocalizationService = void 0;
 const lodash_get_1 = __importDefault(require("lodash.get"));
 /**
  * Localization Service
@@ -104,5 +105,5 @@ class LocalizationService {
         return result;
     }
 }
+exports.LocalizationService = LocalizationService;
 LocalizationService.DEFAULT_CULTURE_NAME = "";
-exports.default = LocalizationService;

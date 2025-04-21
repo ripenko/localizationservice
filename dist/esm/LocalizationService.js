@@ -3,7 +3,7 @@ import get from "lodash.get";
  * Localization Service
  * @class LocalizationService
  */
-class LocalizationService {
+export class LocalizationService {
     constructor(setup = {}) {
         /**
          * Import new language without change the current language
@@ -100,4 +100,3 @@ class LocalizationService {
     }
 }
 LocalizationService.DEFAULT_CULTURE_NAME = "";
-export default LocalizationService;
