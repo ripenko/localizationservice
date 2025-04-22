@@ -91,7 +91,7 @@ class LocalizationService {
      * Key is "key1.key11.key111" to get "Some Value"
      * @param formatArgs The array of replacement values. '{0}', {1}, ..., {N}
      */
-    localize(key, ...formatArgs) {
+    localize(key, formatArgs) {
         return this.localizeInternal(key, this.currentLanguageName, this.currentLanguage, formatArgs);
     }
     localizeInternal(key, languageName, language, formatArgs) {
@@ -100,9 +100,8 @@ class LocalizationService {
             result = this.onLocalizationMissing(key, languageName, language, formatArgs);
         }
         if (result != null && typeof result === "string" && formatArgs) {
-            for (let index = 0; index < formatArgs.length; index++) {
-                const arg = formatArgs[index];
-                result = result.replace(`{${index}}`, arg);
+            for (const formatArgKey of Object.keys(formatArgs)) {
+                result = result.replace(`{${formatArgKey}}`, formatArgs[formatArgKey]);
             }
         }
         return result;

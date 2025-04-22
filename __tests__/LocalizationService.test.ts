@@ -40,7 +40,7 @@ it("Setup. importedLanguages", async () => {
   expect(result).toEqual("Some Key");
 
   await service.changeLanguage("");
-  result = service.localize("Some.Key", "1", "2");
+  result = service.localize("Some.Key", { 0: "1", 1: "2" });
 
   expect(result).toEqual("Some Key 1.2");
 });
@@ -127,7 +127,7 @@ it("Setup. onLanguageImported", async () => {
     "Some.Key": "SOME KEY {0}",
   });
   await service.changeLanguage("");
-  result = service.localize("Some.Key", "3");
+  result = service.localize("Some.Key", { 0: "3" });
   expect(importedLanguageName).toEqual("");
   expect(importedLanguage).toEqual({
     "Some.Key": "SOME KEY {0}",

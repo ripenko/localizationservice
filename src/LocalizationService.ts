@@ -110,7 +110,7 @@ export class LocalizationService {
         key: string,
         _languageName: string,
         _language: LocalizationLanguage | null,
-        _formatArgs: string[]
+        _formatArgs: { [param: string]: string } | undefined
       ): string => {
         return key;
       },
@@ -186,7 +186,10 @@ export class LocalizationService {
    * Key is "key1.key11.key111" to get "Some Value"
    * @param formatArgs The array of replacement values. '{0}', {1}, ..., {N}
    */
-  public localize<T = string>(key: string, ...formatArgs: string[]): T {
+  public localize<T = string>(
+    key: string,
+    formatArgs?: { [param: string]: string }
+  ): T {
     return this.localizeInternal(
       key,
       this.currentLanguageName,
@@ -206,7 +209,7 @@ export class LocalizationService {
     key: string,
     languageName: string,
     language: LocalizationLanguage,
-    formatArgs: string[]
+    formatArgs: { [param: string]: string } | undefined
   ): T {
     let result: T = get(language || {}, key, null) as T;
     if (result == null && this.onLocalizationMissing != null) {
@@ -219,9 +222,11 @@ export class LocalizationService {
     }
 
     if (result != null && typeof result === "string" && formatArgs) {
-      for (let index: number = 0; index < formatArgs.length; index++) {
-        const arg: string = formatArgs[index];
-        result = (result as string).replace(`{${index}}`, arg) as T;
+      for (const formatArgKey of Object.keys(formatArgs)) {
+        result = (result as string).replace(
+          `{${formatArgKey}}`,
+          formatArgs[formatArgKey]
+        ) as T;
       }
     }
 
@@ -237,7 +242,7 @@ export class LocalizationService {
     key: string,
     languageName: string,
     language: LocalizationLanguage,
-    formatArgs: any[]
+    formatArgs: { [param: string]: string } | undefined
   ) => string;
 
   protected onLanguageImported: (

@@ -100,13 +100,19 @@ export declare class LocalizationService {
      * Key is "key1.key11.key111" to get "Some Value"
      * @param formatArgs The array of replacement values. '{0}', {1}, ..., {N}
      */
-    localize<T = string>(key: string, ...formatArgs: string[]): T;
+    localize<T = string>(key: string, formatArgs?: {
+        [param: string]: string;
+    }): T;
     /**
      * Get current language name
      */
     readonly getCurrentLanguageName: () => string;
-    protected localizeInternal<T = string>(key: string, languageName: string, language: LocalizationLanguage, formatArgs: string[]): T;
+    protected localizeInternal<T = string>(key: string, languageName: string, language: LocalizationLanguage, formatArgs: {
+        [param: string]: string;
+    } | undefined): T;
     protected onLanguageChanged: (languageName: string, language: LocalizationLanguage | null) => Promise<void>;
-    protected onLocalizationMissing: (key: string, languageName: string, language: LocalizationLanguage, formatArgs: any[]) => string;
+    protected onLocalizationMissing: (key: string, languageName: string, language: LocalizationLanguage, formatArgs: {
+        [param: string]: string;
+    } | undefined) => string;
     protected onLanguageImported: (name: string, language: LocalizationLanguage) => Promise<void>;
 }
