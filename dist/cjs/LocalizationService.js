@@ -38,7 +38,7 @@ class LocalizationService {
          * @returns [[LocalizationService]]
          */
         this.changeLanguage = async (languageName) => {
-            languageName = (languageName || LocalizationService.DEFAULT_CULTURE_NAME).toLowerCase();
+            languageName = languageName || LocalizationService.DEFAULT_CULTURE_NAME;
             const lang = this.importedLanguages[languageName] || null;
             this.currentLanguage = lang;
             this.currentLanguageName = languageName;

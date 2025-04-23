@@ -160,9 +160,7 @@ export class LocalizationService {
   public readonly changeLanguage = async (
     languageName?: string
   ): Promise<LocalizationService> => {
-    languageName = (
-      languageName || LocalizationService.DEFAULT_CULTURE_NAME
-    ).toLowerCase();
+    languageName = languageName || LocalizationService.DEFAULT_CULTURE_NAME;
     const lang = this.importedLanguages[languageName] || null;
     this.currentLanguage = lang;
     this.currentLanguageName = languageName;
