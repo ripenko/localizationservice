@@ -1,7 +1,7 @@
 {
   "name": "localizationservice",
   "description": "The simple localization service",
-  "version": "2.2.2",
+  "version": "2.3.0",
   "type": "module",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
@@ -17,10 +17,9 @@
     "dist"
   ],
   "scripts": {
-    "build": "npm run clean && npm run build:esm && npm run build:cjs",
+    "build": "npm run build:esm && npm run build:cjs",
     "build:esm": "tsc -p tsconfig.esm.json",
     "build:cjs": "tsc -p tsconfig.cjs.json",
-    "clean": "rimraf dist",
     "test": "vitest",
     "test:watch": "vitest --watch"
   },
@@ -45,7 +44,6 @@
   },
   "devDependencies": {
     "@types/lodash.get": "4.4.9",
-    "rimraf": "6.0.1",
     "typescript": "5.9.3",
     "vitest": "3.2.4"
   }
