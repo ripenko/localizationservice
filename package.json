@@ -1,7 +1,7 @@
 {
   "name": "localizationservice",
   "description": "The simple localization service",
-  "version": "2.2.1",
+  "version": "2.2.2",
   "type": "module",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
@@ -46,7 +46,7 @@
   "devDependencies": {
     "@types/lodash.get": "4.4.9",
     "rimraf": "6.0.1",
-    "typescript": "5.8.3",
-    "vitest": "3.1.1"
+    "typescript": "5.9.3",
+    "vitest": "3.2.4"
   }
 }
