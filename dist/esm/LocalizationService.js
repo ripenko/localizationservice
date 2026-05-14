@@ -1,4 +1,17 @@
-import get from "lodash.get";
+function isRecord(value) {
+    return typeof value === "object" && value !== null;
+}
+function getByPath(source, path, defaultValue) {
+    const value = path.split(".").reduce((current, key) => {
+        if (!isRecord(current)) {
+            return undefined;
+        }
+        return Object.prototype.hasOwnProperty.call(current, key)
+            ? current[key]
+            : undefined;
+    }, source);
+    return value === undefined ? defaultValue : value;
+}
 /**
  * Localization Service
  * @class LocalizationService
@@ -89,7 +102,7 @@ export class LocalizationService {
         return this.localizeInternal(key, this.currentLanguageName, this.currentLanguage, formatArgs);
     }
     localizeInternal(key, languageName, language, formatArgs) {
-        let result = get(language || {}, key, null);
+        let result = getByPath(language || {}, key, null);
         if (result == null && this.onLocalizationMissing != null) {
             result = this.onLocalizationMissing(key, languageName, language, formatArgs);
         }

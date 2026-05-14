@@ -1,4 +1,35 @@
-import get from "lodash.get";
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null;
+}
+
+function getByPath<TValue = unknown>(
+  source: unknown,
+  path: string,
+): TValue | undefined;
+
+function getByPath<TValue = unknown, TDefault = TValue>(
+  source: unknown,
+  path: string,
+  defaultValue: TDefault,
+): TValue | TDefault;
+
+function getByPath<TValue = unknown, TDefault = TValue>(
+  source: unknown,
+  path: string,
+  defaultValue?: TDefault,
+): TValue | TDefault | undefined {
+  const value = path.split(".").reduce<unknown>((current, key) => {
+    if (!isRecord(current)) {
+      return undefined;
+    }
+
+    return Object.prototype.hasOwnProperty.call(current, key)
+      ? current[key]
+      : undefined;
+  }, source);
+
+  return value === undefined ? defaultValue : (value as TValue);
+}
 
 /**
  * Interface of localization language
@@ -54,7 +85,7 @@ export interface LocalizationServiceSetup {
    */
   onLanguageImported?: (
     name: string,
-    language: LocalizationLanguage
+    language: LocalizationLanguage,
   ) => Promise<void>;
 
   /**
@@ -62,7 +93,7 @@ export interface LocalizationServiceSetup {
    */
   onLanguageChanged?: (
     languageName: string,
-    language: LocalizationLanguage | null
+    language: LocalizationLanguage | null,
   ) => Promise<void>;
 
   /**
@@ -96,13 +127,13 @@ export class LocalizationService {
       currentLanguage: {},
       onLanguageChanged: (
         _languageName: string,
-        _language: LocalizationLanguage | null
+        _language: LocalizationLanguage | null,
       ): Promise<void> => {
         return Promise.resolve();
       },
       onLanguageImported: (
         _name: string,
-        _language: LocalizationLanguage
+        _language: LocalizationLanguage,
       ): Promise<void> => {
         return Promise.resolve();
       },
@@ -110,7 +141,7 @@ export class LocalizationService {
         key: string,
         _languageName: string,
         _language: LocalizationLanguage | null,
-        _formatArgs: { [param: string]: string } | undefined
+        _formatArgs: { [param: string]: string } | undefined,
       ): string => {
         return key;
       },
@@ -135,7 +166,7 @@ export class LocalizationService {
    */
   public readonly importLanguage = async (
     language: LocalizationLanguage,
-    name?: string
+    name?: string,
   ): Promise<LocalizationService> => {
     name =
       language.__cultureName__ ||
@@ -158,7 +189,7 @@ export class LocalizationService {
    * @returns [[LocalizationService]]
    */
   public readonly changeLanguage = async (
-    languageName?: string
+    languageName?: string,
   ): Promise<LocalizationService> => {
     languageName = languageName || LocalizationService.DEFAULT_CULTURE_NAME;
     const lang = this.importedLanguages[languageName] || null;
@@ -186,13 +217,13 @@ export class LocalizationService {
    */
   public localize<T = string>(
     key: string,
-    formatArgs?: { [param: string]: string }
+    formatArgs?: { [param: string]: string },
   ): T {
     return this.localizeInternal(
       key,
       this.currentLanguageName,
       this.currentLanguage,
-      formatArgs
+      formatArgs,
     );
   }
 
@@ -207,15 +238,15 @@ export class LocalizationService {
     key: string,
     languageName: string,
     language: LocalizationLanguage,
-    formatArgs: { [param: string]: string } | undefined
+    formatArgs: { [param: string]: string } | undefined,
   ): T {
-    let result: T = get(language || {}, key, null) as T;
+    let result: T = getByPath(language || {}, key, null) as T;
     if (result == null && this.onLocalizationMissing != null) {
       result = this.onLocalizationMissing(
         key,
         languageName,
         language,
-        formatArgs
+        formatArgs,
       ) as T;
     }
 
@@ -223,7 +254,7 @@ export class LocalizationService {
       for (const formatArgKey of Object.keys(formatArgs)) {
         result = (result as string).replace(
           `{${formatArgKey}}`,
-          formatArgs[formatArgKey]
+          formatArgs[formatArgKey],
         ) as T;
       }
     }
@@ -233,18 +264,18 @@ export class LocalizationService {
 
   protected onLanguageChanged: (
     languageName: string,
-    language: LocalizationLanguage | null
+    language: LocalizationLanguage | null,
   ) => Promise<void>;
 
   protected onLocalizationMissing: (
     key: string,
     languageName: string,
     language: LocalizationLanguage,
-    formatArgs: { [param: string]: string } | undefined
+    formatArgs: { [param: string]: string } | undefined,
   ) => string;
 
   protected onLanguageImported: (
     name: string,
-    language: LocalizationLanguage
+    language: LocalizationLanguage,
   ) => Promise<void>;
 }

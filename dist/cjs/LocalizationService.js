@@ -1,10 +1,20 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.LocalizationService = void 0;
-const lodash_get_1 = __importDefault(require("lodash.get"));
+function isRecord(value) {
+    return typeof value === "object" && value !== null;
+}
+function getByPath(source, path, defaultValue) {
+    const value = path.split(".").reduce((current, key) => {
+        if (!isRecord(current)) {
+            return undefined;
+        }
+        return Object.prototype.hasOwnProperty.call(current, key)
+            ? current[key]
+            : undefined;
+    }, source);
+    return value === undefined ? defaultValue : value;
+}
 /**
  * Localization Service
  * @class LocalizationService
@@ -95,7 +105,7 @@ class LocalizationService {
         return this.localizeInternal(key, this.currentLanguageName, this.currentLanguage, formatArgs);
     }
     localizeInternal(key, languageName, language, formatArgs) {
-        let result = (0, lodash_get_1.default)(language || {}, key, null);
+        let result = getByPath(language || {}, key, null);
         if (result == null && this.onLocalizationMissing != null) {
             result = this.onLocalizationMissing(key, languageName, language, formatArgs);
         }
